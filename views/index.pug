@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to web apps assignment#{title}
+  button(type="button", class="btn btn-secondary" onClick="doReduce()") Press button
+
+  div#reduce Reduce the value. 
+  script.  
+    var count = 20
+    var change = -1
+    function doReduce() {
+      count = count + change 
+      change = change - 1
+      document.getElementById("reduce").innerHTML = "Count "+ count +" with change "+change;
+    }
