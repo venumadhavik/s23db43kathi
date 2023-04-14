@@ -11,10 +11,17 @@ res.send(`{"error": ${err}}`);
 }
 };
 
-// for a specific Costume.
-exports.car_detail = function(req, res) {
-res.send('NOT IMPLEMENTED:car detail: ' + req.params.id);
+exports.car_detail = async function(req, res) {
+console.log("detail" + req.params.id)
+try {
+result = await car.findById( req.params.id)
+res.send(result)
+} catch (error) {
+res.status(500)
+res.send(`{"error": document for id ${req.params.id} not found`);
+}
 };
+
 // Handle Costume create on POST.
 exports.car_create_post = async function(req, res) {
     console.log(req.body)
@@ -40,10 +47,28 @@ exports.car_create_post = async function(req, res) {
 exports.car_delete = function(req, res) {
 res.send('NOT IMPLEMENTED: Car delete DELETE ' + req.params.id);
 };
-// Handle Costume update form on PUT.
-exports.car_update_put = function(req, res) {
-res.send('NOT IMPLEMENTED: Car update PUT' + req.params.id);
-};
+exports.car_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+    ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await car.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.car_name)
+    toUpdate.car_name = req.body.car_name;
+    if(req.body.Count) toUpdate.Count = req.body.Count;
+    if(req.body.Car_type) toUpdate.Car_type = req.body.Car_type;
+    else toUpdate.same = false;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id}
+    failed`);
+    }
+    };
+    
+    
 
 exports.car_view_all_Page = async function(req, res) {
     try{
