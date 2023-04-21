@@ -3,6 +3,27 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+Account.findOne({ username: username }, function (err, user) {
+  if (err) { return done(err); }
+  if (!user) {
+  return done(null, false, { message: 'Incorrect username.' });
+  }
+  if (!user.validPassword(password)) {
+  return done(null, false, { message: 'Incorrect password.' });
+  }
+  return done(null, user);
+  });
+  
+  app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
 require('dotenv').config();
 const connectionString =
 process.env.MONGO_CON
@@ -18,6 +39,10 @@ var selectorRouter = require('./routes/selector');
 var car = require("./models/car");
 var resourceRouter=require('./routes/resource');
 
+var Account =require('./models/Account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 
 

@@ -8,6 +8,17 @@ body {
   }
   
   .carAttr {
-    background-color: aquamarine;
+    background-color: rgb(203, 58, 18);
     width: 120px;
+   }
+
+   .carAttr1 {
+    background-color: rgb(91, 21, 162);
+    width: 110px;
+    font-size: medium;
+    font-family: Arial, Helvetica, serif;
+   }
+  
+   body{
+    background-color: rgb(225, 16, 194);
    }
