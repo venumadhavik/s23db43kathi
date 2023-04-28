@@ -1,8 +1,15 @@
 const mongoose = require("mongoose")
-const costumeSchema = mongoose.Schema({
+const carSchema = mongoose.Schema({
 car_name: String,
-Count:Number,
-Car_type: String
+Count:{
+        type:Number,
+        min: 3,
+        max: 5} ,
+
+Car_type: {
+    type: String,
+    required: true,
+    match: /^[a-zA-Z]+$/}
 
 })
-module.exports = mongoose.model("carCostume",costumeSchema)
+module.exports = mongoose.model("carCostume",carSchema)
